@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Демо мерчант</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f7f7f7;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        .form-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            margin-top: 10px;
+            display: block;
+            color: #555;
+        }
+        input[type="text"], 
+        input[type="email"] {
+            width: 92.5%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus, 
+        input[type="email"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        async function submitForm(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const authToken = formData.get('auth_token');
+            const callbackUrl = formData.get('callback_url');
+
+            const response = await fetch("https://business.cixsdpxj.info/api/v1/payments", {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + authToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    product: "demo",
+                    amount: 10000,
+                    currency: "RUB",
+                    callbackUrl: callbackUrl,
+                    order_number: "demo",
+                    customer: {
+                        email: 'test@test.com',
+                        ip: '192.168.0.1'
+                    }
+
+                })
+            });
+
+            if (response.ok) {
+                const jsonResponse = await response.json();
+                window.location.href = jsonResponse.selectorUrl; // Редирект на selectorUrl
+            } else {
+                alert('Произошла ошибка при обработке запроса.');
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Демо мерчант</h1>
+        <form onsubmit="submitForm(event)">
+            <label for="auth_token">Токен авторизации:</label>
+            <input type="text" id="auth_token" name="auth_token" placeholder="Токен" required><br>
+
+            <label for="callback_url">URL обратного вызова:</label>
+            <input type="text" id="callback_url" name="callback_url" placeholder="URL обратного вызова" required><br>
+
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+</body>
+</html>

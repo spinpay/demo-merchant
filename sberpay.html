@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sberpay</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f7f7f7;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        .form-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            margin-top: 10px;
+            display: block;
+            color: #555;
+        }
+        input[type="text"], 
+        input[type="email"] {
+            width: 92.5%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus, 
+        input[type="email"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        async function submitForm(event) {
+            event.preventDefault();
+            const card_number = formData.get('card_number');
+            window.open("intent://ru.sberbankmobile/payments/p2p?type=account_number&requisiteNumber="+card_number, "_blank");
+        }
+    </script>
+</head>
+<body>
+    <div class="form-container">
+        <form onsubmit="submitForm(event)">
+            <label for="card_number">Номер карты:</label>
+            <input type="text" id="auth_token" name="auth_token" placeholder="1234123412341234" required><br>
+
+            <button type="submit">Оплатить</button>
+        </form>
+    </div>
+</body>
+</html>

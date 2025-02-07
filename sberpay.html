@@ -65,10 +65,16 @@
         }
     </style>
     <script>
+        var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         async function submitForm(event) {
             event.preventDefault();
+            formData = new FormData(event.target);
             const card_number = formData.get('card_number');
-            window.open("intent://ru.sberbankmobile/payments/p2p?type=account_number&requisiteNumber="+card_number, "_blank");
+            if (isIOS) {
+                window.open("sberbankonline://payments/p2p?type=account_number&requisiteNumber="+card_number, "_blank");            
+            } else {
+                window.open("intent://ru.sberbankmobile/payments/p2p?type=account_number&requisiteNumber="+card_number, "_blank");
+            }
         }
     </script>
 </head>

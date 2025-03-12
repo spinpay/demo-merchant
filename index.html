@@ -31,13 +31,18 @@
             color: #555;
         }
         input[type="text"], 
-        input[type="email"] {
+        input[type="email"],
+        select {
             width: 92.5%;
             padding: 10px;
             margin: 5px 0 15px;
             border: 1px solid #ccc;
             border-radius: 4px;
             transition: border-color 0.3s;
+        }
+        select {
+            width: 100%;
+            outline: none;
         }
         input[type="text"]:focus, 
         input[type="email"]:focus {
@@ -74,7 +79,7 @@
             const formData = new FormData(event.target);
             const authToken = formData.get('auth_token');
             const callbackUrl = formData.get('callback_url');
-
+            const method = formData.get('payment_method')
             const response = await fetch("https://business.cixsdpxj.info/api/v1/payments", {
                 method: 'POST',
                 headers: {
@@ -93,7 +98,7 @@
                         ip: '192.168.0.1'
                     },
                     bank_account: {
-                        requisite_type: 'sbp'
+                        requisite_type: method
                     }
                 })
             });
@@ -113,10 +118,13 @@
         <form onsubmit="submitForm(event)">
             <label for="auth_token">Токен авторизации:</label>
             <input type="text" id="auth_token" name="auth_token" placeholder="Токен" required><br>
-
             <label for="callback_url">URL обратного вызова:</label>
             <input type="text" id="callback_url" name="callback_url" placeholder="URL обратного вызова" required><br>
-
+            <label for="payment_method">Тип реквизита:</label>
+            <select id="payment_method" name="payment_method" required>
+                <option value="sbp">СБП</option>
+                <option value="card">Карта</option>
+            </select><br>
             <button type="submit">Отправить</button>
         </form>
     </div>

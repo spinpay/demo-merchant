@@ -109,6 +109,7 @@
 
             if (response.ok) {
                 const jsonResponse = await response.json();
+                console.log(jsonResponse);
                 window.location.href = jsonResponse.selectorUrl; // Редирект на selectorUrl
             } else {
                 alert('Произошла ошибка при обработке запроса.');

@@ -84,33 +84,39 @@
             const authToken = formData.get('auth_token');
             const callbackUrl = formData.get('callback_url');
             const method = formData.get('payment_method')
+            let data = {
+                locale: "ru",
+                product: "demo",
+                amount: Math.trunc(amount*100),
+                currency: currency,
+                order_number: crypto.randomUUID(),
+                customer: {
+                    email: 'test@test.com',
+                    ip: '192.168.0.1'
+                },
+                bank_account: {
+                    requisite_type: method
+                }
+            };
+            if (callbackUrl !== null && callbackUrl.trim() !== '') {
+                data.callbackUrl = callbackUrl;
+            } 
             const response = await fetch("https://business.cixsdpxj.info/api/v1/payments", {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + authToken,
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    locale: "ru",
-                    product: "demo",
-                    amount: Math.trunc(amount*100),
-                    currency: currency,
-                    callbackUrl: callbackUrl,
-                    order_number: crypto.randomUUID(),
-                    customer: {
-                        email: 'test@test.com',
-                        ip: '192.168.0.1'
-                    },
-                    bank_account: {
-                        requisite_type: method
-                    }
-                })
+                body: JSON.stringify(data)
             });
 
             if (response.ok) {
                 const jsonResponse = await response.json();
-                console.log(jsonResponse);
-                window.location.href = jsonResponse.selectorUrl; // Редирект на selectorUrl
+                if ( 'selectorUrl' in jsonResponse ) {
+                    window.location.href = jsonResponse.selectorUrl; // Редирект на selectorUrl
+                } else {
+                    alert('Произошла ошибка при обработке запроса. Возможно неверный токен авторизации, или прием заявок на данную сумму ограничен!');
+                }
             } else {
                 alert('Произошла ошибка при обработке запроса.');
             }
@@ -124,7 +130,7 @@
             <label for="auth_token">Токен авторизации:</label>
             <input type="text" id="auth_token" name="auth_token" placeholder="Токен" required><br>
             <label for="callback_url">URL обратного вызова:</label>
-            <input type="text" id="callback_url" name="callback_url" placeholder="URL обратного вызова" required><br>
+            <input type="text" id="callback_url" name="callback_url" placeholder="URL обратного вызова"><br>
             <label for="currency">Валюта:</label>
             <select id="currency" name="currency" required>
                 <option value="RUB">RUB</option>

